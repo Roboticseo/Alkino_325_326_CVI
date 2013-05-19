@@ -1,5 +1,9 @@
 RUNSPEC
 
+RUNCTRL
+MAXLINIT 400
+ /
+
 METRIC
 
 DIMENS
@@ -41,37 +45,37 @@ GRID
 NEWTRAN
 
 INCLUDE
-'GEOL_NEW/grid.ecl' / -- grid
+'GEOL_2013_05_15/grid.ecl' / -- grid
 
 INCLUDE
-'GEOL_NEW/dop/ntg_dop.ecl' / -- NTG from 08.05.2013 corrected with clay layers
+'GEOL_2013_05_15/ntg14.ecl' / -- NTG from 15.05.2013 corrected with clay layers
 
 INCLUDE
-'GEOL_NEW/dop/poro_dop.ecl' / -- from 08.05.2013 updated by El'za
+'GEOL_2013_05_15/poro.ecl' / -- from 15.05.2013 updated by El'za
 
 INCLUDE
-'GEOL_NEW/ARRHUU.ecl' /
+'GEOL_2013_05_15/ARRHUU.ecl' /
+
+INCLUDE
+'GEOL_2013_05_15/ARRMULTX0518_2.inc' /
+-- 144 0.5
+-- 368 0.5
+-- 302 0.5
+
 
 --INCLUDE
---'GEOL_NEW/dop/ARRCLAY.ecl' /
+--'GEOL_NEW/CLAY.ecl' /
 
 NOECHO
 
 ARITHMETIC
 MULTPV=1 
-MULTPV(1:1,,) = 10000
+MULTPV(1:1,,) = 9E04
 PERMX = 20.10*EXP(0.1537*PORO*100) 
-PERMZ = 0.5*PERMX
+PERMZ = 0.4*PERMX
+PERMZ = ARRMULTX * PERMZ 
 NTG(51:59,75:81,1:80) = (ARRHUU!=100)*NTG+0*(ARRHUU==100)
 NTG(,,81:86)=0 
---NTG(49:60,92:103,28:34) = 0
-PERMZ(49:60,92:103,28:34) = PERMZ/30
---PERMZ(41:43,99:101,1:80) = PERMZ * 0.00001 -- 368
---PERMZ(57:63,100:100,28:34) = PERMZ * 1 -- 322
---NTG(40:44,98:102,56:58) = 0 -- 368
---NTG(55:59,98:102,40:44) = 0 -- 322
-PERMZ(40:44,98:102,56:58) = PERMZ / 300 -- 368
-PERMZ(55:59,98:102,40:44) = PERMZ / 50 -- 322
 PERMX = 0*(NTG==0) + (NTG==1) * PERMX
 PERMZ = 0*(NTG==0) + (NTG==1) * PERMZ
 /
@@ -104,31 +108,25 @@ YES
 /
 
 INCLUDE
-'GEOL_NEW/SWATINIT.ecl' /
+'GEOL_2013_05_15/SWATINIT.ecl' /
 
 COREYWO
 --	swl		swu	swcr	sowcr	krolw	krorw	krwr	krwu	pcow	now		nw		npw	swzpc
-	0.2 	1 	0.2	0.31	1.00	1.00	0.048	1.00	1	5.	1.	7 	1.00 /
-	0.2 	1 	0.2	0.31	1.00	1.00	0.048	1.00	1	5.	1.0	7 	1.00 /
-	0.2 	1 	0.2	0.31	1.00	1.00	0.048	1.00	1	2	1	7 	1.00 /
+	0.2 	1 	0.2	0.31	1.00	1.00	0.048	1.00	1	6.	1.	7 	1.00 /
+	0.2 	1 	0.2	0.31	1.00	1.00	0.048	1.00	1	6.	1.0	7 	1.00 /
+	0.2 	1 	0.2	0.31	1.00	1.00	0.048	1.00	1	6	1	7 	1.00 /
  /
 
 INCLUDE
-'GEOL_NEW/ARRFAC_0510.ecl' /
---INCLUDE
---'GEOL_NEW/ARRKR004.ecl' /
---INCLUDE
---'GEOL_NEW/ARRSW001.ecl' /
+'GEOL_2013_05_15/ARRFAC_0510.ecl' /
 
 ARITHMETIC
---ARRKR001 = ARRKR001 *2
---ARRKR001 = (ARRKR001==2)*1+(ARRKR001!=2)*ARRKR001 
-SWATINIT=SWATINIT*0.01 
+SWATINIT=SWATINIT
 SWATINIT(,,82:86)=1 
 SWL = 1.0635*EXP(-9.7*PORO)
-SWL = (ARRFAC==1)*SWL*0.9+(ARRFAC==2)*SWL*0.9 +(ARRFAC==3)*SWL*0.9 
+SWL = (ARRFAC==1)*SWL*0.9+(ARRFAC==2)*SWL*0.8 +(ARRFAC==3)*SWL*0.8 
 SOWCR =(SWATINIT != 1)*((1-(0.6975+0.0676*LOG(PERMX/1000)))*(1-SWATINIT)) + (SWATINIT==1)*(0.01*(-5.299*LOG(permx/1000) + 25.101))
-KRWR = (ARRFAC==1)*0.25+(ARRFAC==2)*0.02+(ARRFAC==3)*0.048
+KRWR = (ARRFAC==1)*0.2+(ARRFAC==2)*0.08+(ARRFAC==3)*0.15 -- было 0,3 * 0,048 * 0,2
 --KRWR = ARRKR001 * KRWR 
 --SWL=ARRSW001*SWL 
 SWL = SWL*(SWATINIT >= SWL) + SWATINIT*(SWATINIT < SWL)
@@ -145,7 +143,7 @@ ROCK
 REGIONS
 
 INCLUDE
-'GEOL_NEW/SATNUM_0510.ecl' /
+'GEOL_2013_05_15/SATNUM.ecl' /
 
 ARITHMETIC
 pvtnum=1 
@@ -158,7 +156,7 @@ fipnum(,,82:86)=2
 SOLUTION
 
 EQUIL
-     1688.4   170   1688.4    1*     1*    1*    1	1	0	1*   /
+     1688.4   170   1688.4    1*     1*    1*    1	1	5	1*   /
 /
 
 SUMMARY
@@ -184,9 +182,9 @@ HUNI
 sm3/day sm3/day ksm3 ksm3 bara /
 
 INCLUDE 
-  'INCL\Well_ng.dat' /
+  'GEOL_2013_05_15\Wells\Well.dat' /
 INCLUDE 
-  'INCL\PERF_it5.INC' /
+  'INCL\PERF_it6.INC' /
 INCLUDE 
   'INCL\event_it2.inc' /
 INCLUDE 
