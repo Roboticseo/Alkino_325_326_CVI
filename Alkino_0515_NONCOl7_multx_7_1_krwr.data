@@ -78,6 +78,7 @@ NTG(51:59,75:81,1:80) = (ARRHUU!=100)*NTG+0*(ARRHUU==100)
 NTG(,,81:86)=0 
 PERMX = 0*(NTG==0) + (NTG==1) * PERMX
 PERMZ = 0*(NTG==0) + (NTG==1) * PERMZ
+PERMZ(48:58,76:91,50:57) = PERMZ * (PERMX>388) + 0 * (PERMX<=388)
 /
 
 COPY
@@ -212,7 +213,7 @@ HUNI
 sm3/day sm3/day ksm3 ksm3 bara /
 
 INCLUDE 
-  'GEOL_2013_05_15\Wells\Well.dat' /
+  'INCL\Wells\Well.dat' /
 INCLUDE 
   'INCL\PERF_it6.INC' /
 INCLUDE 
@@ -220,6 +221,6 @@ INCLUDE
 INCLUDE 
   'INCL\hist.inc' /
 
-READ 1 MAR 2013 /
+READ 1 MAY 2014 /
 
 STOP

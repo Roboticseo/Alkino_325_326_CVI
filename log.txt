@@ -1,0 +1,23 @@
+--- C:/Users/SazonovEO/AppData/Local/Temp/vWBfCc_Alkino_0515_NONCOl7_multx_7_1_krwr.data	Thu May 08 13:56:29 2014
++++ C:/temp/Alk_model/Alkino_0515_NONCOl7_multx_7_1_krwr.data	Thu May 08 13:00:04 2014
+@@ -80,2 +80,3 @@
+ PERMZ = 0*(NTG==0) + (NTG==1) * PERMZ
++PERMZ(48:58,76:91,50:57) = PERMZ * (PERMX>388) + 0 * (PERMX<=388)
+ /
+@@ -222,3 +223,3 @@
+ 
+-READ 1 MAR 2013 /
++READ 1 MAY 2014 /
+ 
+--- C:/Users/SazonovEO/AppData/Local/Temp/y1EUvc_PERF_it6.INC	Thu May 08 13:57:06 2014
++++ C:/temp/Alk_model/INCL/PERF_it6.INC	Thu May 08 12:40:46 2014
+@@ -16,2 +16,3 @@
+ 368	01.12.2008	PERF	1961.00	1962.00	0.066	0	1	/
++325bgs 01.04.2014	PERF	2001	2141.4	0.066	0	1	/
+ --*************************************--
+--- C:/Users/SazonovEO/AppData/Local/Temp/gFviWd_event_it2.inc	Thu May 08 13:57:28 2014
++++ C:/temp/Alk_model/INCL/event_it2.inc	Thu May 08 12:39:06 2014
+@@ -17,2 +17,3 @@
+ --********************--
++325bgs	01.04.2014	PROD	HLIQ  HWEF    BHPT 10 
+ ENDE
