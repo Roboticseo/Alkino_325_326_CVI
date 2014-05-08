@@ -48,7 +48,7 @@ INCLUDE
 'GEOL_2013_05_15/grid.ecl' / -- grid
 
 INCLUDE
-'GEOL_2013_05_15/ntg14.ecl' / -- NTG from 15.05.2013 corrected with clay layers
+'GEOL_2013_05_15/NTG_FC.INC' / -- NTG from 15.05.2013 corrected with clay layers
 
 INCLUDE
 'GEOL_2013_05_15/poro.ecl' / -- from 15.05.2013 updated by El'za
